@@ -13,7 +13,6 @@ clone_repo() {
 
   cd $HOME
   git clone git@github.com:constructable-ai/cpm.git
-  cd $HOME/cpm
   
   echo "Done"
   echo
@@ -21,7 +20,8 @@ clone_repo() {
 
 install_nix() {
   echo "Installing nix"
-  
+
+  cd $HOME/cpm
   curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
   
   echo "Done"
@@ -31,6 +31,7 @@ install_nix() {
 install_direnv() {
   echo "Installing up direnv"
 
+  cd $HOME/cpm
   nix profile install nixpkgs#direnv
   
   add_line_if_not_exists "$HOME/.zshrc" 'eval "$(direnv hook zsh)"'
