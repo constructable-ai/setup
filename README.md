@@ -1,12 +1,18 @@
 # Setup
 
-This is a public repo that provides a script which allows a new employee to quickly get basic development tools installed on a fresh Macbook. There are three steps to getting a development environment setup:
+This is a public repo that provides a script which allows a new employee to quickly get basic development
+tools installed on a fresh Macbook. There are three steps to getting a development environment setup:
 
 * Install system level tools
 * Add SSH keys to Github
 * Clone the repository and install development tools
 
 Follow the steps in the sections below.
+
+# Join the Constructable Github organization
+
+Send John a Slack message with your Github username and ask to be added to the Constructable Github
+organization.
 
 # Run the system setup script
 
