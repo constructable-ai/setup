@@ -8,7 +8,7 @@ get access to private repositories.
 To run the setup script, execute the following command from a terminal:
 
 ```shell
-/bin/bash -c "$(curl -fsSL https://example.com)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/constructable-ai/setup/main/setup-macos.sh)"
 ```
 
 The script will output an SSH key that you can Slack to John to get you setup with Github.
