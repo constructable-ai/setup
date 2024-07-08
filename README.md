@@ -28,7 +28,8 @@ get access to private repositories. To run the setup script, execute the followi
 The setup script will copy an SSH key to your clipboard. Visit this Github URL:
 https://github.com/settings/keys
 
-Click on the "New SSH Key" button and supply your newly generated SSH key.
+Click on the "New SSH Key" button and supply your newly generated SSH key. Specify a title that will help you
+identify which computer you generated the SSH keys for and specify "Authentication" as the key type.
 
 # Run the development environment setup script
 
