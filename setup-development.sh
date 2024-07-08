@@ -21,7 +21,6 @@ clone_repo() {
 install_nix() {
   echo "Installing nix"
 
-  cd $HOME/cpm
   curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
   
   echo "Done"
@@ -37,6 +36,7 @@ install_direnv() {
   add_line_if_not_exists "$HOME/.zshrc" 'eval "$(direnv hook zsh)"'
   add_line_if_not_exists "$HOME/.bashrc" 'eval "$(direnv hook bash)"'
 
+  cd $HOME/cpm
   nix profile install .#nix-direnv
   mkdir -p $HOME/.config/direnv
   add_line_if_not_exists "$HOME/.config/direnv/direnvrc" "source $HOME/.nix-profile/share/nix-direnv/direnvrc"
