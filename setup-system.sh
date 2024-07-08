@@ -115,7 +115,7 @@ setup_ssh_keys() {
   echo
 
   echo "The following SSH key has been copied to your clipboard. Please"
-  echo "slack it to John so he can give you access to Constructable repos:"
+  echo 'visit this Github URL and add a new SSH key by clicking "New SSH Key"'
   echo
   cat "$SSH_KEY.pub"
 }
