@@ -13,6 +13,7 @@ clone_repo() {
 
   cd $HOME
   git clone git@github.com:constructable-ai/cpm.git
+  cd $HOME/cpm
   
   echo "Done"
   echo
