@@ -47,7 +47,7 @@ Press enter to close the terminal when the script finishes.
 
 # 5. Start the server
 
-Change directory to the CPM project directory
+Open a new Terminal and change directory to the CPM project directory
 
 ```shell
 cd ~/cpm
