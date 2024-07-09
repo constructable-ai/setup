@@ -189,7 +189,7 @@ install_direnv() {
 
 finish() {
   # Replace the user's terminal with a Zsh and finish configuring direnv for the project
-  exec /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/constructable-ai/setup/main/setup-direnv.sh); exec zsh"
+  exec /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/constructable-ai/setup/main/start-server.sh); exec zsh"
 }
 
 add_line_if_not_exists() {
