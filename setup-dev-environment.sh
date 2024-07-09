@@ -44,6 +44,7 @@ install_homebrew() {
   else
     echo "Homebrew is already installed."
   fi
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 
   # Add Homebrew to PATH for interactive shells
   if ! grep -q 'eval "$(/opt/homebrew/bin/brew shellenv)"' ~/.zshrc; then
