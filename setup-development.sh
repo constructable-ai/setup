@@ -3,9 +3,24 @@
 set -e
 
 run() {
+  show_install_steps
   clone_repo
   install_nix
   install_direnv
+  finish
+}
+
+show_install_steps() {
+  echo "This setup script will perform the following operations:"
+  echo
+  echo "  1. Clone the Constructable repository to your home directory"
+  echo "  2. Install nix on your system"
+  echo "  3. Install direnv on your system and update shell startup config"
+  echo
+  echo "This script is idempotent. You can run it multiple times without any harm."
+  echo
+  echo "Press any key to continue..."
+  read
 }
 
 clone_repo() {
@@ -47,16 +62,21 @@ install_direnv() {
   echo
 }
 
+finish() {
+  echo "Success! Press enter to exit this terminal."
+  read
+  exit
+}
+
 add_line_if_not_exists() {
   local file=$1
   local line=$2
 
-  if [ -f "$file" ]; then
-    if ! grep -Fxq "$line" "$file"; then
-      echo "$line" >> "$file"
-      echo "Added to $file: $line"
-    fi
+  if [ ! -f "$file" ] || ! grep -Fxq "$line" "$file"; then
+    echo "$line" >> "$file"
+    echo "Added to $file: $line"
   fi
 }
+
 
 run

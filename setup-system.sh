@@ -15,6 +15,8 @@ run() {
 
   setup_ssh_keys
   echo
+
+  finish
 }
 
 show_install_steps() {
@@ -29,11 +31,6 @@ show_install_steps() {
   echo
   echo "Press any key to continue..."
   read
-
-  install_homebrew
-  install_git
-  install_zsh
-  setup_ssh_keys
 }
 
 install_homebrew() {
@@ -118,6 +115,12 @@ setup_ssh_keys() {
   echo 'visit this Github URL and add a new SSH key by clicking "New SSH Key"'
   echo
   cat "$SSH_KEY.pub"
+}
+
+finish() {
+  echo "Success! Press enter to exit this terminal."
+  read
+  exit
 }
 
 run

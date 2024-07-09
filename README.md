@@ -9,12 +9,12 @@ tools installed on a fresh Macbook. There are three steps to getting a developme
 
 Follow the steps in the sections below.
 
-# Join the Constructable Github organization
+# 1. Join Constructable on Github
 
 Send John a Slack message with your Github username and ask to be added to the Constructable Github
 organization.
 
-# Run the system setup script
+# 2. Run the system setup script
 
 It installs Homebrew, Git, and sets up SSH keys so the employee can
 get access to private repositories. To run the setup script, execute the following command from a terminal:
@@ -23,7 +23,7 @@ get access to private repositories. To run the setup script, execute the followi
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/constructable-ai/setup/main/setup-system.sh)"
 ```
 
-# Add your SSH key to Github
+# 3. Add your SSH key to Github
 
 The setup script will copy an SSH key to your clipboard. Visit this Github URL:
 https://github.com/settings/keys
@@ -31,13 +31,15 @@ https://github.com/settings/keys
 Click on the "New SSH Key" button and supply your newly generated SSH key. Specify a title that will help you
 identify which computer you generated the SSH keys for and specify "Authentication" as the key type.
 
-# Run the development environment setup script
+# 4. Run the development setup script
+
+Open a new terminal and run the development setup script:
 
 ```shell
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/constructable-ai/setup/main/setup-development.sh)"
 ```
 
-# Start the server
+# 5. Start the server
 
 Change directory to the CPM project directory
 
