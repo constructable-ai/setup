@@ -27,7 +27,12 @@ clone_repo() {
   echo "Cloning CPM repository"
 
   cd $HOME
-  git clone git@github.com:constructable-ai/cpm.git
+  if [ ! -d "cpm" ]; then
+    git clone git@github.com:constructable-ai/cpm.git
+    echo "CPM repository cloned successfully."
+  else
+    echo "CPM repository already exists. Skipping clone."
+  fi
   
   echo "Done"
   echo
