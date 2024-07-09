@@ -2,20 +2,10 @@
 
 run() {
   show_install_steps
-  echo
-
   install_homebrew
-  echo
-
   install_git
-  echo
-
   install_zsh
-  echo
-
   setup_ssh_keys
-  echo
-
   finish
 }
 
@@ -34,6 +24,8 @@ show_install_steps() {
 }
 
 install_homebrew() {
+  echo "Installing Homebrew"
+
   if ! command -v brew &> /dev/null; then
     echo "Homebrew not found. Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -57,18 +49,28 @@ install_homebrew() {
   else
     echo "Homebrew PATH is already configured in .zprofile."
   fi
+
+  echo "Done"
+  echo
 }
 
 install_git() {
+  echo "Installing Git"
+
   if ! command -v git &> /dev/null; then
     echo "Git not found. Installing Git..."
     brew install git
   else
     echo "Git is already installed."
   fi
+
+  echo "Done"
+  echo
 }
 
 install_zsh() {
+  echo "Installing Zsh"
+
   if ! command -v zsh &> /dev/null; then
     echo "Zsh not found. Installing Zsh..."
     brew install zsh
@@ -83,9 +85,14 @@ install_zsh() {
   else
     echo "Zsh is already the default shell."
   fi
+
+  echo "Done"
+  echo
 }
 
 setup_ssh_keys() {
+  echo "Setting up SSH keys"
+
   SSH_KEY="$HOME/.ssh/id_ed25519"
 
   if [ ! -f "$SSH_KEY" ]; then
@@ -96,7 +103,11 @@ setup_ssh_keys() {
     echo "SSH key already exists."
   fi
 
-  eval "$(ssh-agent -s)"
+  if [ -z "$SSH_AUTH_SOCK" ] || ! pgrep -u "$USER" ssh-agent > /dev/null; then
+    eval "$(ssh-agent -s)"
+  else
+    echo "Using existing ssh-agent."
+  fi
 
   if ! ssh-add -L | grep -q "$(cat $SSH_KEY.pub)"; then
     echo "Adding SSH key to the SSH agent..."
@@ -104,17 +115,19 @@ setup_ssh_keys() {
   else
     echo "SSH key is already added to the SSH agent."
   fi
-  
+
   echo
 
   echo "Copying SSH key to clipboard..."
   pbcopy < "$SSH_KEY.pub"
   echo
 
-  echo "The following SSH key has been copied to your clipboard. Please"
-  echo 'visit this Github URL and add a new SSH key by clicking "New SSH Key"'
+  echo "The following SSH key has been copied to your clipboard. Please visit"
+  echo 'https://github.com/settings/keys and add a new SSH key by clicking "New SSH Key"'
   echo
+  echo "Your SSH key:"
   cat "$SSH_KEY.pub"
+  echo
 }
 
 finish() {
