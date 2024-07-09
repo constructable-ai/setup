@@ -1,7 +1,8 @@
 # Setup
 
-This is a public repo that provides a script which allows a new employee to quickly get basic development
-tools installed on a fresh Macbook. There are three steps to getting a development environment setup:
+This is a public repo that provides a script which allows a new employee such as yourself to quickly
+get basic development tools installed on a fresh Macbook. There are three steps to getting a
+development environment setup:
 
 * Install system level tools
 * Add SSH keys to Github
@@ -16,12 +17,15 @@ organization.
 
 # 2. Run the system setup script
 
-It installs Homebrew, Git, and sets up SSH keys so the employee can
-get access to private repositories. To run the setup script, execute the following command from a terminal:
+This script installs basic system utilities like Homebrew and Git and sets up SSH keys so the you
+can get access to private repositories. To run the setup script, execute the following command from
+a terminal:
 
 ```shell
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/constructable-ai/setup/main/setup-system.sh)"
 ```
+
+Press enter to close the terminal when the script finishes.
 
 # 3. Add your SSH key to Github
 
@@ -39,6 +43,8 @@ Open a new terminal and run the development setup script:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/constructable-ai/setup/main/setup-development.sh)"
 ```
 
+Press enter to close the terminal when the script finishes.
+
 # 5. Start the server
 
 Change directory to the CPM project directory
@@ -53,4 +59,5 @@ Start the development server
 foreman start
 ```
 
-In your browser, you can now access the development server at http://localhost:5173
+In your browser, you can now access the development server at:
+http://localhost:5173
