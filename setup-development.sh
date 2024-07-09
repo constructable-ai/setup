@@ -63,9 +63,9 @@ install_direnv() {
 }
 
 finish() {
-  echo "Success! Press enter to exit this terminal."
+  echo "Success! You must close this terminal to continue. Press enter to close the terminal..."
   read
-  exit
+  kill -9 $PPID
 }
 
 add_line_if_not_exists() {
