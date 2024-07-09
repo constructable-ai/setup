@@ -3,6 +3,6 @@
 cd $HOME/cpm
 
 direnv allow .
-direnv reload
+eval "$(direnv export zsh)"
 
 foreman start
