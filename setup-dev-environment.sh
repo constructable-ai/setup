@@ -102,7 +102,7 @@ setup_ssh_keys() {
   echo "Setting up SSH keys"
 
   if [ ! -f "$SSH_KEY" ]; then
-    read -p "Enter your email address (this will be used to generate an SSH key): " email
+    read -p "Enter your Constructable email address (this will be used to generate an SSH key): " email
     echo "SSH key not found. Generating a new SSH key..."
     ssh-keygen -t ed25519 -C "$email" -f "$SSH_KEY" -N ""
   else
