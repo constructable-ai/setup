@@ -11,7 +11,10 @@ run() {
   install_zsh
   setup_ssh_keys
   add_ssh_keys
-  setup_development
+  clone_repo
+  install_nix
+  install_direnv
+  finish
 }
 
 show_install_steps() {
@@ -25,7 +28,6 @@ show_install_steps() {
   echo "  6. Clone the Constructable repository to your home directory"
   echo "  7. Install nix on your system"
   echo "  8. Install direnv on your system and update shell startup config"
-  echo "  9. Install frontend packages"
   echo
   echo "This script is idempotent. You can run it multiple times without any harm."
   echo
@@ -144,8 +146,59 @@ add_ssh_keys() {
   echo
 }
 
-setup_development() {
-  /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/constructable-ai/setup/main/setup-development.sh)"
+clone_repo() {
+  echo "Cloning CPM repository"
+
+  cd $HOME
+  if [ ! -d "cpm" ]; then
+    git clone git@github.com:constructable-ai/cpm.git
+    echo "CPM repository cloned successfully."
+  else
+    echo "CPM repository already exists. Skipping clone."
+  fi
+  
+  echo "Done"
+  echo
+}
+
+install_nix() {
+  echo "Installing nix"
+
+  curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+  
+  echo "Done"
+  echo
+}
+
+install_direnv() {
+  echo "Installing direnv"
+
+  cd $HOME/cpm
+  nix profile install nixpkgs#direnv  
+  add_line_if_not_exists "$HOME/.zshrc" 'eval "$(direnv hook zsh)"'
+
+  nix profile install .#nix-direnv
+  mkdir -p $HOME/.config/direnv
+  add_line_if_not_exists "$HOME/.config/direnv/direnvrc" "source $HOME/.nix-profile/share/nix-direnv/direnvrc"
+
+  echo "Done"
+  echo
+}
+
+finish() {
+  echo "Success! You must close this terminal to continue. Press enter to close the terminal..."
+  read
+  kill -9 $PPID
+}
+
+add_line_if_not_exists() {
+  local file=$1
+  local line=$2
+
+  if [ ! -f "$file" ] || ! grep -Fxq "$line" "$file"; then
+    echo "$line" >> "$file"
+    echo "Added to $file: $line"
+  fi
 }
 
 
