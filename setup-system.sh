@@ -1,21 +1,31 @@
 #!/bin/sh
 
+set -e
+
+SSH_KEY="$HOME/.ssh/id_ed25519"
+
 run() {
   show_install_steps
   install_homebrew
-  install_git
+  install_utilities
   install_zsh
   setup_ssh_keys
-  finish
+  add_ssh_keys
+  setup_development
 }
 
 show_install_steps() {
   echo "This setup script will perform the following operations:"
   echo
   echo "  1. Install Homebrew"
-  echo "  2. Install Git"
+  echo "  2. Install required command line utilities"
   echo "  3. Install Zsh and make it the default shell"
   echo "  4. Generate an SSH key if needed"
+  echo "  5. Add the SSH key to Github if needed"
+  echo "  6. Clone the Constructable repository to your home directory"
+  echo "  7. Install nix on your system"
+  echo "  8. Install direnv on your system and update shell startup config"
+  echo "  9. Install frontend packages"
   echo
   echo "This script is idempotent. You can run it multiple times without any harm."
   echo
@@ -54,15 +64,10 @@ install_homebrew() {
   echo
 }
 
-install_git() {
-  echo "Installing Git"
+install_utilities() {
+  echo "Installing utilities"
 
-  if ! command -v git &> /dev/null; then
-    echo "Git not found. Installing Git..."
-    brew install git
-  else
-    echo "Git is already installed."
-  fi
+  brew install git gh jq
 
   echo "Done"
   echo
@@ -92,8 +97,6 @@ install_zsh() {
 
 setup_ssh_keys() {
   echo "Setting up SSH keys"
-
-  SSH_KEY="$HOME/.ssh/id_ed25519"
 
   if [ ! -f "$SSH_KEY" ]; then
     read -p "Enter your email address (this will be used to generate an SSH key): " email
@@ -130,10 +133,20 @@ setup_ssh_keys() {
   echo
 }
 
-finish() {
-  echo "Success! You must close this terminal to continue. Press enter to close the terminal..."
-  read
-  kill -9 $PPID
+add_ssh_keys() {
+  echo "Adding SSH key to Github"
+
+  local title="$(hostname)"
+
+  gh auth login --hostname github.com --git-protocol ssh --web
+
+  echo "Done"
+  echo
 }
+
+setup_development() {
+  /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/constructable-ai/setup/main/setup-development.sh)"
+}
+
 
 run

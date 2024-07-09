@@ -50,20 +50,18 @@ install_nix() {
 }
 
 install_direnv() {
-  echo "Installing up direnv"
+  echo "Installing direnv"
 
   cd $HOME/cpm
-  nix profile install nixpkgs#direnv
-  
+  nix profile install nixpkgs#direnv  
   add_line_if_not_exists "$HOME/.zshrc" 'eval "$(direnv hook zsh)"'
-  source $HOME/.zshrc
 
-  cd $HOME/cpm
   nix profile install .#nix-direnv
   mkdir -p $HOME/.config/direnv
   add_line_if_not_exists "$HOME/.config/direnv/direnvrc" "source $HOME/.nix-profile/share/nix-direnv/direnvrc"
   
   direnv allow .
+  direnv reload
 
   echo "Done"
   echo
