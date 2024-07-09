@@ -54,7 +54,7 @@ install_direnv() {
   nix profile install nixpkgs#direnv
   
   add_line_if_not_exists "$HOME/.zshrc" 'eval "$(direnv hook zsh)"'
-  add_line_if_not_exists "$HOME/.bashrc" 'eval "$(direnv hook bash)"'
+  source $HOME/.zshrc
 
   cd $HOME/cpm
   nix profile install .#nix-direnv
@@ -63,6 +63,16 @@ install_direnv() {
   
   direnv allow .
 
+  echo "Done"
+  echo
+}
+
+install_frontend() {
+  echo "Installing frontend packages"
+  
+  cd $HOME/cpm/frontend
+  bun i
+  
   echo "Done"
   echo
 }
