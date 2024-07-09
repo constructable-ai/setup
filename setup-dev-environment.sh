@@ -183,6 +183,8 @@ install_direnv() {
   mkdir -p $HOME/.config/direnv
   add_line_if_not_exists "$HOME/.config/direnv/direnvrc" "source $HOME/.nix-profile/share/nix-direnv/direnvrc"
 
+  /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/constructable-ai/setup/main/setup-direnv.sh)"
+
   echo "Done"
   echo
 }
