@@ -7,6 +7,7 @@ run() {
   clone_repo
   install_nix
   install_direnv
+  install_frontend
   finish
 }
 
@@ -16,6 +17,7 @@ show_install_steps() {
   echo "  1. Clone the Constructable repository to your home directory"
   echo "  2. Install nix on your system"
   echo "  3. Install direnv on your system and update shell startup config"
+  echo "  4. Install frontend packages"
   echo
   echo "This script is idempotent. You can run it multiple times without any harm."
   echo
