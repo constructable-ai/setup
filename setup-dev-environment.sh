@@ -183,16 +183,13 @@ install_direnv() {
   mkdir -p $HOME/.config/direnv
   add_line_if_not_exists "$HOME/.config/direnv/direnvrc" "source $HOME/.nix-profile/share/nix-direnv/direnvrc"
 
-  /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/constructable-ai/setup/main/setup-direnv.sh)"
-
   echo "Done"
   echo
 }
 
 finish() {
-  echo "Success! You must close this terminal to continue. Press enter to close the terminal..."
-  read
-  kill -9 $PPID
+  # Replace the user's terminal with a Zsh and finish configuring direnv for the project
+  exec /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/constructable-ai/setup/main/setup-direnv.sh); exec zsh"
 }
 
 add_line_if_not_exists() {
