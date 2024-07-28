@@ -24,7 +24,7 @@ setup_tunnel() {
   echo "Setting up development tunnel"
 
   cd $HOME/cpm
-  op signin --force --account Constructable
+  op signin
   echo "Search for and select `constructable.dev` in your browser"
   cloudflared login
 
