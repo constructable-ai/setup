@@ -14,7 +14,7 @@ run() {
   clone_repo
   install_nix
   install_direnv
-  setup_tunnel
+
   finish
 }
 
@@ -29,7 +29,6 @@ show_install_steps() {
   echo "  6. Clone the Constructable repository to your home directory"
   echo "  7. Install nix on your system"
   echo "  8. Install direnv on your system and update shell startup config"
-  echo "  9. Setup a tunnel so you can access your dev server from a public URL"
   echo
   echo "This script is idempotent. You can run it multiple times without any harm."
   echo
@@ -184,40 +183,6 @@ install_direnv() {
   nix profile install .#nix-direnv
   mkdir -p $HOME/.config/direnv
   add_line_if_not_exists "$HOME/.config/direnv/direnvrc" "source $HOME/.nix-profile/share/nix-direnv/direnvrc"
-
-  echo "Done"
-  echo
-}
-
-setup_tunnel() {
-  echo "Setting up development tunnel"
-
-  cd $HOME/cpm
-  op signin --account Constructable
-  echo "Search for and select `constructable.dev` in your browser"
-  cloudflared login
-
-  local name=$(whoami)
-  local app_host=app-$name.constructable.dev
-  local api_host=api-$name.constructable.dev
-  local tunnel=$(cloudflared tunnel create -o json $name | jq -r '.id')
-
-  cat <<EOF > $HOME/.cloudflared/config.yml
-  tunnel: $tunnel
-  credentials-file: $HOME/.cloudflared/$tunnel.json
-
-  ingress:
-    - hostname: $app_host
-      service: http://localhost:5173
-    - hostname: $api_host
-      service: http://localhost:3000
-    - service: http_status:404
-EOF
-
-  cloudflared tunnel route dns $tunnel $app_host
-  cloudflared tunnel route dns $tunnel $api_host
-  op item edit --vault "Developers" "Tunnels" "$name=$tunnel"
-  kamal envify -P
 
   echo "Done"
   echo
