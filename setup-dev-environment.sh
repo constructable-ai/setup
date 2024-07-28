@@ -8,6 +8,7 @@ run() {
   show_install_steps
   install_homebrew
   install_utilities
+  setup_1password
   install_zsh
   setup_ssh_keys
   add_ssh_keys
@@ -23,6 +24,7 @@ show_install_steps() {
   echo
   echo "  1. Install Homebrew"
   echo "  2. Install required command line utilities"
+  echo "  2. Setup 1Password and 1Password CLI integration"
   echo "  3. Install Zsh and make it the default shell"
   echo "  4. Generate an SSH key if needed"
   echo "  5. Add the SSH key to Github if needed"
@@ -71,7 +73,24 @@ install_homebrew() {
 install_utilities() {
   echo "Installing utilities"
 
-  brew install git gh jq
+  brew install git gh jq 1password 1password-cli
+
+  echo "Done"
+  echo
+}
+
+setup_1password() {
+  echo "Setting up 1Password:"
+  echo "1. Login to 1Password with your Constructable credentials"
+  echo "2. Under 1Password > Settings > Developer, ensure that Enable 1Password CLI is checked"
+  echo "3. Close 1Password"
+  open /Applications/1Password.app
+
+  echo "Press any key to continue"
+  read
+
+  echo "Authorize Constructable with the CLI"
+  op vault list
 
   echo "Done"
   echo
