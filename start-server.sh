@@ -26,7 +26,7 @@ setup_tunnel() {
   cd $HOME/cpm
   op signin --account Constructable
   echo "Search for and select `constructable.dev` in your browser"
-  cloudflared login
+  cloudflared -f login
 
   local name=$(whoami)
   local app_host=app-$name.constructable.dev
