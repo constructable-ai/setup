@@ -23,7 +23,7 @@ install_dependencies() {
 setup_tunnel() {
   echo "Setting up development tunnel"
 
-  op signin --account my.1password.com
+  op signin --account constructable.1password.com
   
   echo "Login to Cloudflare, search for, and select constructable.dev in your browser"
   cloudflared login
