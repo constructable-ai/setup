@@ -9,7 +9,6 @@ run() {
   install_homebrew
   install_utilities
   setup_1password
-  setup_tunnel
   install_zsh
   setup_ssh_keys
   add_ssh_keys
@@ -93,40 +92,6 @@ setup_1password() {
 
   echo "Authorize Constructable with the CLI"
   op vault list
-
-  echo "Done"
-  echo
-}
-
-setup_tunnel() {
-  echo "Setting up development tunnel"
-
-  op signin
-  
-  echo "Login to Cloudflare, search for, and select constructable.dev in your browser"
-  cloudflared login
-
-  local name=$(whoami)
-  local app_host=app-$name.constructable.dev
-  local api_host=api-$name.constructable.dev
-  local tunnel=$(cloudflared tunnel create -o json $name | jq -r '.id')
-
-  cat <<EOF > $HOME/.cloudflared/config.yml
-  tunnel: $tunnel
-  credentials-file: $HOME/.cloudflared/$tunnel.json
-
-  ingress:
-    - hostname: $app_host
-      service: http://localhost:5173
-    - hostname: $api_host
-      service: http://localhost:3000
-    - service: http_status:404
-EOF
-
-  cloudflared tunnel route dns $tunnel $app_host
-  cloudflared tunnel route dns $tunnel $api_host
-  op item edit --vault "Developers" "Tunnels" "$name=$tunnel"
-  kamal envify -P
 
   echo "Done"
   echo
