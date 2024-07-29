@@ -90,6 +90,9 @@ setup_1password() {
   echo "Press any key to continue"
   read
 
+  echo "Signing in to the 1Password Constructable vault"
+  op signin --account constructable.1password.com
+
   echo "Done"
   echo
 }

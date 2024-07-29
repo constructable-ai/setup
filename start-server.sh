@@ -53,6 +53,7 @@ EOF
   cloudflared --overwrite-dns tunnel route dns $tunnel $app_host
   cloudflared --overwrite-dns tunnel route dns $tunnel $api_host
 
+  op signin --account constructable.1password.com
   op item edit --vault "Developers" "Tunnels" "$name=$tunnel"
   kamal envify -P
 
