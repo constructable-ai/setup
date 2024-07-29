@@ -90,9 +90,6 @@ setup_1password() {
   echo "Press any key to continue"
   read
 
-  echo "Authorize Constructable with the CLI"
-  op vault list
-
   echo "Done"
   echo
 }
