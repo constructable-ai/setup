@@ -74,7 +74,14 @@ install_homebrew() {
 install_utilities() {
   echo "Installing utilities"
 
-  brew install git gh jq 1password 1password-cli
+  if [ ! -d "/Applications/1Password.app" ]; then
+    echo "1Password is not installed. Installing via Homebrew..."
+    brew install --cask 1password
+  else
+    echo "1Password is already installed."
+  fi
+
+  brew install git gh jq 1password-cli
 
   echo "Done"
   echo
