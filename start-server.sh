@@ -5,17 +5,27 @@ set -e
 
 run() {
   install_dependencies
+  generate_env
   setup_tunnel
   start_server
 }
 
 install_dependencies() {
   echo "Installing project dependencies"
-  op signin --account constructable.1password.com
 
   cd $HOME/cpm
   direnv allow .
   eval "$(direnv export zsh)"
+
+  echo "Done"
+  echo
+}
+
+generate_env() {
+  echo "Generating .env file"
+
+  op signin --account constructable.1password.com
+  kamal envify -P
 
   echo "Done"
   echo
