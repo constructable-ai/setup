@@ -9,6 +9,7 @@ run() {
   install_homebrew
   install_utilities
   setup_1password
+  setup_tunnel
   install_zsh
   setup_ssh_keys
   add_ssh_keys
@@ -24,13 +25,14 @@ show_install_steps() {
   echo
   echo "  1. Install Homebrew"
   echo "  2. Install required command line utilities"
-  echo "  2. Setup 1Password and 1Password CLI integration"
-  echo "  3. Install Zsh and make it the default shell"
-  echo "  4. Generate an SSH key if needed"
-  echo "  5. Add the SSH key to Github if needed"
-  echo "  6. Clone the Constructable repository to your home directory"
-  echo "  7. Install nix on your system"
-  echo "  8. Install direnv on your system and update shell startup config"
+  echo "  3. Setup 1Password and 1Password CLI integration"
+  echo "  4. Setup a development tunnel so you can access the server from a public URL"
+  echo "  5. Install Zsh and make it the default shell"
+  echo "  6. Generate an SSH key if needed"
+  echo "  7. Add the SSH key to Github if needed"
+  echo "  8. Clone the Constructable repository to your home directory"
+  echo "  9. Install nix on your system"
+  echo "  10. Install direnv on your system and update shell startup config"
   echo
   echo "This script is idempotent. You can run it multiple times without any harm."
   echo
@@ -91,6 +93,40 @@ setup_1password() {
 
   echo "Authorize Constructable with the CLI"
   op vault list
+
+  echo "Done"
+  echo
+}
+
+setup_tunnel() {
+  echo "Setting up development tunnel"
+
+  op signin
+  
+  echo "Login to Cloudflare, search for, and select constructable.dev in your browser"
+  cloudflared login
+
+  local name=$(whoami)
+  local app_host=app-$name.constructable.dev
+  local api_host=api-$name.constructable.dev
+  local tunnel=$(cloudflared tunnel create -o json $name | jq -r '.id')
+
+  cat <<EOF > $HOME/.cloudflared/config.yml
+  tunnel: $tunnel
+  credentials-file: $HOME/.cloudflared/$tunnel.json
+
+  ingress:
+    - hostname: $app_host
+      service: http://localhost:5173
+    - hostname: $api_host
+      service: http://localhost:3000
+    - service: http_status:404
+EOF
+
+  cloudflared tunnel route dns $tunnel $app_host
+  cloudflared tunnel route dns $tunnel $api_host
+  op item edit --vault "Developers" "Tunnels" "$name=$tunnel"
+  kamal envify -P
 
   echo "Done"
   echo
